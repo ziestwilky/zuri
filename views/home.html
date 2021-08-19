@@ -309,7 +309,7 @@
                               data-rotate='[ "web applications.", "ios and android applications.", "software development.", "Api Development" ]'></span>&lt;/<i>code</i>&gt;</div>
                           <div class="art-buttons-frame">
                             <!-- button -->
-                            <a href="static/portfolio-3-col-masonry.html" class="art-btn art-btn-md art-anima-link"><span>Contact Me </span></a>
+                            <a href="#contact" class="art-btn art-btn-md art-anima-link"><span>Contact Me </span></a>
                           </div>
                         </div>
                         <!-- main title end -->
@@ -485,7 +485,7 @@ Designing complex databases PostgreSQL/Mongo DB/SQL Server/SQLite/MY SQL
         
 
           <!-- col -->
-          <div class="col-lg-12">
+          <div class="col-lg-12" id='contact'>
 
             <!-- section title -->
             <div class="art-section-title">
@@ -502,7 +502,7 @@ Designing complex databases PostgreSQL/Mongo DB/SQL Server/SQLite/MY SQL
             <div class="art-a art-card">
 
               <!-- contact form -->
-              <form method="post" action="/contact">
+              <form  method="post" action="">
                 <!-- form field -->
                 <div class="art-form-field">
                   <!-- name input -->
@@ -529,7 +529,7 @@ Designing complex databases PostgreSQL/Mongo DB/SQL Server/SQLite/MY SQL
                 <!-- form field end -->
                 <!-- button -->
                 <div class="art-submit-frame">
-                  <button class="art-btn art-btn-md art-submit" type="submit" name='submit'>Send message</button>
+                  <button class="art-btn art-btn-md art-submit" type="submit" name='submit' onclick="Sendform()">Send message</button>
                   <!-- success -->
                   <div class="art-success">Success <i class="fas fa-check"></i></div>
                 </div>
@@ -646,8 +646,10 @@ Designing complex databases PostgreSQL/Mongo DB/SQL Server/SQLite/MY SQL
   </div>
   <!-- app end -->
   <script>
+    function Sendform() {
     $(document).ready(function () {
-  $("form").submit(function (event) {
+
+  $("form").submit(function (e) {
     const name = $('#name').val().trim();
         const email = $('#email').val().trim();
         
@@ -658,22 +660,21 @@ Designing complex databases PostgreSQL/Mongo DB/SQL Server/SQLite/MY SQL
             email,
             text
         };
-
-    $.ajax({
-      type: "POST",
-      url: "/contact",
-      data: data,
-      dataType: "json",
-      encode: true,
-    }).done(function (data) {
-      console.log(data);
-    });
-
-    event.preventDefault();
+        $.ajax({
+           type: "POST",
+           url: "/",
+           data: data.serialize(), // serializes the form's elements.
+           done: function(data)
+           {
+               alert(data); // show response from the php script.
+           }
+         });
+        //return false;
+  
   });
 });
     
-
+    }
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>

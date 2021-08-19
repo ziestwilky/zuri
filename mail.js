@@ -1,24 +1,20 @@
-const nodemailer = require('nodemailer');
-const mailGun = require('nodemailer-mailgun-transport');
-
-const auth = {
-    auth: {
-        api_key: '93be54dd0460d5de70777350e27a160f-9776af14-4e0b20ed',
-        domain: 'https://api.mailgun.net/v3/sandbox8912a1312a1e45899da29dd50e027f20.mailgun.org'
-    }
-};
-
-const transporter = nodemailer.createTransport(mailGun(auth));
-
-const sendMail = (name, email, text) => {
-    const mailOptions = {
-        sender: name,
-        from: email,
-        to: 'ziestwilky@gmail.com',
-        text: text
+const emailConfig = require('./email-config')();
+const mailgun = require('mailgun-js')(emailConfig);
+exports.sendEmail = (name, email, text, attachment) =>
+  new Promise((resolve, reject) => {
+    const data = {
+      from: name +'<'+ email +'>',
+      to: 'ziestwilky@gmail.com',
+      subject: 'Contact form submission',
+      text: text,
+      inline: attachment,
+      html: text,
     };
-    transporter.sendMail(mailOptions);
-}
 
-// Exporting the sendmail
-module.exports = sendMail;
+    mailgun.messages().send(data, (error) => {
+      if (error) {
+        return reject(error);
+      }
+      return resolve();
+    });
+  });
